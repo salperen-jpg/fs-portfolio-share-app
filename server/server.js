@@ -16,6 +16,8 @@ app.get("/", (req, res) => {
 });
 
 // routes
+import linkRouter from "./routes/linksRoute.js";
+app.use("/api/v1/links", linkRouter);
 
 // errrors
 
