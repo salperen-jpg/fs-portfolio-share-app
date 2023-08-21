@@ -17,12 +17,18 @@ app.get("/", (req, res) => {
 
 // routes
 import linkRouter from "./routes/linksRoute.js";
+
 app.use("/api/v1/links", linkRouter);
 
 // errrors
 
-// start
-
 const PORT = process.env.port || 5000;
 
-app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
+import { connectToDB } from "./db/connect.js";
+// start
+try {
+  await connectToDB();
+  app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
+} catch (error) {
+  console.log(error);
+}
