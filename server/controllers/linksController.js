@@ -1,9 +1,12 @@
+import Link from "../models/Link.js";
+
 const getLinks = async (req, res) => {
   res.status(200).json({ msg: "LinksS" });
 };
 
 const addLink = async (req, res) => {
-  res.status(201).json({ msg: "Created" });
+  const link = await Link.create(req.body);
+  res.status(201).json({ link });
 };
 
 const getSingleLink = async (req, res) => {
