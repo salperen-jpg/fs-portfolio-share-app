@@ -19,9 +19,9 @@ app.post("/person", body("person").notEmpty(), (req, res) => {
 
 // routes
 import linkRouter from "./routes/linksRoute.js";
-
+import authRouter from "./routes/authRoute.js";
 app.use("/api/v1/links", linkRouter);
-
+app.use("/api/v1/auth", authRouter);
 // errrors
 import { notFound } from "./middlewares/notFound.js";
 import { errorHandlerMiddleware } from "./middlewares/errorHandlerMiddleware.js";
