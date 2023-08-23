@@ -1,7 +1,8 @@
 import Link from "../models/Link.js";
 
 const getLinks = async (req, res) => {
-  res.status(200).json({ msg: "LinksS" });
+  const links = await Link.find({});
+  res.status(200).json({ links });
 };
 
 const addLink = async (req, res) => {
@@ -10,15 +11,23 @@ const addLink = async (req, res) => {
 };
 
 const getSingleLink = async (req, res) => {
-  res.status(200).json({ msg: "Single Link" });
+  console.log(req.params);
+  const link = await Link.findById(req.params.id);
+
+  res.status(200).json({ msg: link });
 };
 
 const updateLink = async (req, res) => {
-  res.status(200).json({ msg: "Update Link" });
+  const link = await Link.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true,
+  });
+  res.status(200).json({ link });
 };
 
 const deleteLink = async (req, res) => {
-  res.status(200).json({ msg: "Delete Link" });
+  const link = await Link.findOneAndDelete(id);
+
+  res.status(200).json({ msg: "Deleted Link" });
 };
 
 export { getLinks, addLink, getSingleLink, updateLink, deleteLink };
