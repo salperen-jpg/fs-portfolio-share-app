@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 const linkSchema = new mongoose.Schema(
   {
     url: String,
-    name: String,
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
