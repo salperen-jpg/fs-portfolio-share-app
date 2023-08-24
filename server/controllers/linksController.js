@@ -2,10 +2,15 @@ import Link from "../models/Link.js";
 
 const getLinks = async (req, res) => {
   const links = await Link.find({});
+  console.log("in the actual controller");
   res.status(200).json({ links });
 };
 
 const addLink = async (req, res) => {
+  const {
+    user: { userId },
+  } = req.user;
+  req.body.createdBy = userId;
   const link = await Link.create(req.body);
   res.status(201).json({ link });
 };
