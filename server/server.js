@@ -1,27 +1,24 @@
+import "express-async-errors";
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-import morgan from "morgan";
 const app = express();
-import { body, validationResult } from "express-validator";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
 // middlewares
 app.use(express.json());
-
+app.use(cookieParser());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.post("/person", body("person").notEmpty(), (req, res) => {
-  const error = validationResult(req);
-  console.log(error);
-  res.send("abc");
-});
-
 // routes
 import linkRouter from "./routes/linksRoute.js";
 import authRouter from "./routes/authRoute.js";
-app.use("/api/v1/links", linkRouter);
+import authMiddleware from "./middlewares/authMiddleware.js";
+app.use("/api/v1/links", authMiddleware, linkRouter);
 app.use("/api/v1/auth", authRouter);
+
 // errrors
 import { notFound } from "./middlewares/notFound.js";
 import { errorHandlerMiddleware } from "./middlewares/errorHandlerMiddleware.js";
