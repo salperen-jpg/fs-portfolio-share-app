@@ -12,4 +12,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.methods.excludePass = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
+
 export default mongoose.model("User", userSchema);
