@@ -12,12 +12,18 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+app.get("/api/test", (req, res) => {
+  res.status(200).json({ msg: "Test" });
+});
+
 // routes
 import linkRouter from "./routes/linksRoute.js";
 import authRouter from "./routes/authRoute.js";
 import authMiddleware from "./middlewares/authMiddleware.js";
+import userRouter from "./routes/userRoute.js";
 app.use("/api/v1/links", authMiddleware, linkRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", authMiddleware, userRouter);
 
 // errrors
 import { notFound } from "./middlewares/notFound.js";
