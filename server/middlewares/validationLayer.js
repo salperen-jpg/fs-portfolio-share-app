@@ -1,5 +1,5 @@
 import { body, param, validationResult } from "express-validator";
-import { BadRequest, NotFound } from "../errors/customErrors.js";
+import { BadRequest, NotFound, Unauthorized } from "../errors/customErrors.js";
 import mongoose from "mongoose";
 import Link from "../models/Link.js";
 import User from "../models/User.js";
@@ -28,10 +28,16 @@ export const addLinkValidation = validationLayer([
 ]);
 
 export const idParamValidation = validationLayer([
-  param("id").custom(async (id) => {
-    const isValidId = await mongoose.isValidObjectId(id);
+  param("id").custom(async (id, { req }) => {
+    const isValidId = mongoose.isValidObjectId(id);
     if (!isValidId) throw new Error("Invalid mongoDB id !");
     const actualLink = await Link.findById(id);
+    const {
+      user: { userId },
+    } = req;
+    if (userId !== actualLink.createdBy.toString()) {
+      throw new Unauthorized("Not authorized !");
+    }
     if (!actualLink) throw new Error(`No link with the id of : ${id}`);
   }),
 ]);
@@ -66,4 +72,19 @@ export const userLoginValidation = validationLayer([
     .withMessage("Email can not be empty!")
     .isEmail()
     .withMessage("Invalid email format"),
+]);
+
+export const userUpdateValidation = validationLayer([
+  body("name").notEmpty().withMessage("Name file can not be empty!"),
+  body("lastName").notEmpty().withMessage("Lastname can not be empty!"),
+  body("email")
+    .notEmpty()
+    .withMessage("Email can not be empty!")
+    .isEmail()
+    .withMessage("Invalid email format")
+    .custom(async (email, { req }) => {
+      const isEmailExisting = await User.findOne({ email });
+      if (isEmailExisting && isEmailExisting._id.toString() !== req.user.userId)
+        throw new BadRequest("Email already in use!");
+    }),
 ]);
