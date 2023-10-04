@@ -1,0 +1,21 @@
+{
+  "name": "fs-portfolio-share-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd server && nodemon server",
+    "client": "cd client && npm run dev",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "setup-production": "cd server && node server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
