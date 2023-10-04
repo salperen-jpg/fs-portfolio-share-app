@@ -16,7 +16,7 @@ const addLink = async (req, res) => {
 
 const getSingleLink = async (req, res) => {
   const link = await Link.findById(req.params.id);
-  res.status(200).json({ msg: link });
+  res.status(200).json({ link: link });
 };
 
 const updateLink = async (req, res) => {
@@ -27,7 +27,7 @@ const updateLink = async (req, res) => {
 };
 
 const deleteLink = async (req, res) => {
-  const link = await Link.findOneAndDelete(id);
+  await Link.findOneAndDelete(req.params.id);
 
   res.status(200).json({ msg: "Deleted Link" });
 };

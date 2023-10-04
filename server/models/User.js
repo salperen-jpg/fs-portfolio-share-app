@@ -5,11 +5,14 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   email: String,
   password: String,
+  devRole: String,
   role: {
     type: String,
     enum: ["user", "admin"],
     default: "user",
   },
+  avatar: String,
+  avatarPublicId: String,
 });
 
 userSchema.methods.excludePass = function () {

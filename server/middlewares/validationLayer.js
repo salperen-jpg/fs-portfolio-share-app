@@ -25,6 +25,7 @@ export const addLinkValidation = validationLayer([
     .withMessage("url can not be empty.")
     .isLength({ min: 10 })
     .withMessage("So short for a complete link !"),
+  body("platform").notEmpty().withMessage("platform can not be empty."),
 ]);
 
 export const idParamValidation = validationLayer([
@@ -45,6 +46,7 @@ export const idParamValidation = validationLayer([
 export const userRegisterValidation = validationLayer([
   body("name").notEmpty().withMessage("Name file can not be empty!"),
   body("lastName").notEmpty().withMessage("Lastname can not be empty!"),
+  body("devRole").notEmpty().withMessage("Role can not be empty!"),
   body("password")
     .notEmpty()
     .withMessage("Password can not be empty!")
@@ -87,4 +89,5 @@ export const userUpdateValidation = validationLayer([
       if (isEmailExisting && isEmailExisting._id.toString() !== req.user.userId)
         throw new BadRequest("Email already in use!");
     }),
+  body("devRole").notEmpty().withMessage("Role can not be empty!"),
 ]);

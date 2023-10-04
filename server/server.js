@@ -5,16 +5,25 @@ import express from "express";
 const app = express();
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import cloudinary from "cloudinary";
+// public
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 // middlewares
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
 app.use(express.json());
 app.use(cookieParser());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.get("/api/test", (req, res) => {
-  res.status(200).json({ msg: "Test" });
-});
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "../public")));
 
 // routes
 import linkRouter from "./routes/linksRoute.js";
@@ -24,6 +33,11 @@ import userRouter from "./routes/userRoute.js";
 app.use("/api/v1/links", authMiddleware, linkRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", authMiddleware, userRouter);
+
+// frontend routes
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../public/index.html"));
+});
 
 // errrors
 import { notFound } from "./middlewares/notFound.js";

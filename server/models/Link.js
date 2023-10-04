@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const linkSchema = new mongoose.Schema(
   {
     url: String,
+    platform: String,
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
