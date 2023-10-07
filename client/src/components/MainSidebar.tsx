@@ -3,7 +3,7 @@ import NavLinks from "./NavLinks";
 import { useDashboardContext } from "../pages/DashboardSharedLayout";
 
 const MainSidebar = () => {
-  const { isSidebarOpen, toggleSidebar } = useDashboardContext();
+  const { isSidebarOpen } = useDashboardContext();
 
   return (
     <Wrapper>

@@ -6,7 +6,8 @@
   "scripts": {
     "server": "nodemon server.js",
     "client": "cd ../client && npm run dev",
-    "startUp": "conc --kill-others-on-fail \"npm run server\" \"npm run client\" "
+    "startUp": "conc --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "setup-production": "npm install && cd ../client && npm install && npm run build"
   },
   "type": "module",
   "keywords": [],
