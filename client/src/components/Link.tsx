@@ -67,7 +67,7 @@ const SingleLink: React.FC<IShowButtons> = ({
 
 const Wrapper = styled.article`
   margin-bottom: 1rem;
-  width: 20rem;
+  max-width: 20rem;
   padding: 1.5rem 1rem;
   border-radius: 8px;
   .content {

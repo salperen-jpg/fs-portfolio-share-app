@@ -166,10 +166,10 @@ form:hover {
 
 .form-center {
   display: grid;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   padding: 1rem;
 }
-@media (min-width: 800px) {
+@media (min-width: 992px) {
   .form-center {
     grid-template-columns: 1fr 1fr;
     align-items: center;

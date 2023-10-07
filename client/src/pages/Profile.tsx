@@ -69,17 +69,11 @@ const Profile = () => {
 };
 
 export const Wrapper = styled.section`
-  .form-center {
-    display: grid;
-    align-items: flex-end;
-    padding: 1rem;
-  }
   .submit-btn {
     width: 100%;
     text-transform: capitalize;
     padding: 0.75rem 0.5rem;
     font-size: 0.8rem;
-    align-self: flex-end;
   }
   form {
     transition: var(--transition);
@@ -87,11 +81,20 @@ export const Wrapper = styled.section`
   form:hover {
     box-shadow: var(--shadow-3);
   }
-  @media (min-width: 800px) {
-    .form-center {
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 2rem;
+  input {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  @media (min-width: 992px) {
+    .submit-btn {
+      align-self: flex-end;
+    }
+    input {
+      height: 100%;
+    }
+    .form-row {
+      align-self: stretch;
     }
   }
 `;

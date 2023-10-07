@@ -6,9 +6,9 @@ import { ILink } from "../models/LinkModel";
 import LinkComponent from "../components/Link";
 import { toast } from "react-toastify";
 import PageHero from "../components/PageHero";
-import { LuImagePlus } from "react-icons/lu";
-import { FaUserAlt } from "react-icons/fa";
+
 import { PiCloudWarningFill } from "react-icons/pi";
+import { ProfileInfo } from "../components";
 
 export const loader = async () => {
   try {
@@ -27,22 +27,7 @@ const Links = () => {
     <Wrapper>
       <PageHero />
       <div className='outer-content'>
-        <div className='profile'>
-          <div className='img-container'>
-            {user?.avatar ? (
-              <img src={user?.avatar} className='image' alt={user?.name} />
-            ) : (
-              <FaUserAlt className='image' />
-            )}
-            <Link to='profile' className='add-image'>
-              <LuImagePlus />
-            </Link>
-          </div>
-          <h5>
-            {user?.name} {user?.lastName}
-          </h5>
-          <span>{user?.devRole}</span>
-        </div>
+        <ProfileInfo user={user} />
         {links.length > 0 ? (
           <div className='links'>
             {links.map((link: ILink) => {
@@ -70,8 +55,10 @@ const Wrapper = styled.main`
   margin-top: -4rem;
 
   .outer-content {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: var(--profile-container);
     border-radius: 10px;
     width: 80vw;
