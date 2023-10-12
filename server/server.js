@@ -45,7 +45,7 @@ import { errorHandlerMiddleware } from "./middlewares/errorHandlerMiddleware.js"
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 
 import { connectToDB } from "./db/connect.js";
 // start
