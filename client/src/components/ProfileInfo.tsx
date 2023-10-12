@@ -3,7 +3,7 @@ import { LuImagePlus } from "react-icons/lu";
 import { FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 interface IProfileInfo {
-  user: IUser;
+  user: IUser | undefined;
 }
 
 const ProfileInfo: React.FC<IProfileInfo> = ({ user }) => {

@@ -17,7 +17,7 @@ const NavUser = () => {
         <BiSolidDownArrow className='icon' />
       )}
       {user?.name}
-      {user.avatar ? <img src={user?.avatar}></img> : <FaUserAlt />}
+      {user!.avatar ? <img src={user?.avatar}></img> : <FaUserAlt />}
       <div className={isDropDownOpen ? "dropDown show-dropDown" : "dropDown"}>
         <Link to='profile' className='btn profile-btn'>
           profile
@@ -40,7 +40,6 @@ const Wrapper = styled.div`
   font-weight: 600;
   letter-spacing: var(--spacing);
   gap: 1rem;
-  /* color: var(--white); */
   border: 1px solid var(--grey-300);
   border-radius: 10px;
   font-size: 0.75rem;

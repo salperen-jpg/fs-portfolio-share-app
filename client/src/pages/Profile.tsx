@@ -4,6 +4,7 @@ import { FormRow } from "../components";
 import customAxios from "../utils/customAxios";
 import { toast } from "react-toastify";
 import { useDashboardContext } from "./DashboardSharedLayout";
+import { IUser } from "../models/UserModels";
 
 export const action = async ({ request }: any) => {
   const formData = await request.formData();
@@ -24,7 +25,7 @@ export const action = async ({ request }: any) => {
 
 const Profile = () => {
   const { user } = useDashboardContext();
-  const { name, lastName, email, devRole } = user;
+  const { name, lastName, email, devRole } = user as IUser;
   return (
     <Wrapper>
       <Form method='post' encType='multipart/form-data'>

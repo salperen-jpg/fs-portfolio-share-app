@@ -1,14 +1,28 @@
 import customAxios from "../utils/customAxios";
-import { redirect, useLoaderData } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PiLinkSimpleHorizontalLight } from "react-icons/pi";
 import { FaUserAlt } from "react-icons/fa";
 import styled from "styled-components";
 import AdminCart from "../components/AdminCart";
-export const loader = async () => {
-  try {
+import { QueryClient, useQuery } from "@tanstack/react-query";
+
+interface IAdmin {
+  links: number;
+  users: number;
+}
+
+const adminQuery = () => ({
+  queryKey: ["admin"],
+  queryFn: async (): Promise<IAdmin> => {
     const { data } = await customAxios.get("/user/admin");
-    return data;
+    return { links: data.links, users: data.users };
+  },
+});
+
+export const loader = (queryClient: QueryClient) => async () => {
+  try {
+    return await queryClient.ensureQueryData(adminQuery());
   } catch (error: any) {
     toast.error(error?.response?.data?.msg);
     return redirect("/");
@@ -16,17 +30,17 @@ export const loader = async () => {
 };
 
 const Admin = () => {
-  const { links, users } = useLoaderData() as { links: number; users: number };
+  const { data } = useQuery(adminQuery());
 
   return (
     <Wrapper>
       <h4>Admin</h4>
       <div className='content'>
-        <AdminCart text='user' icon={<FaUserAlt />} amount={users} />
+        <AdminCart text='user' icon={<FaUserAlt />} amount={data!.users} />
         <AdminCart
           text='link'
           icon={<PiLinkSimpleHorizontalLight />}
-          amount={links}
+          amount={data!.links}
         />
       </div>
     </Wrapper>

@@ -8,44 +8,58 @@ import { toast } from "react-toastify";
 import { Wrapper } from "./AddLink";
 import { validatePlatformAndLink } from "./AddLink";
 import { ILink } from "../models/LinkModel";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 
-export const loader = async (data: any) => {
-  const {
-    params: { id },
-  } = data;
-  try {
+const linkQuery = (id: string) => ({
+  queryKey: ["link", id],
+  queryFn: async (): Promise<ILink> => {
     const { data } = await customAxios(`/links/${id}`);
     return data.link;
-  } catch (error) {
-    return error;
-  }
-};
+  },
+});
 
-// CONTINUE FROM VALIDATION
-export const action = async ({ request, params }: any) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  const isLinkValid = validatePlatformAndLink({
-    url: data.url,
-    platform: data.platform,
-  });
-  if (!isLinkValid) {
-    return toast.error("Please provide a valid link!");
-  }
-  try {
-    await customAxios.patch(`/links/${params.id}`, data);
-    toast.success("Edited successfully!");
-    return redirect("/dashboard");
-  } catch (error: any) {
-    toast.success(error?.response?.data?.msg);
-    return error;
-  }
-};
+export const loader =
+  (queryClient: QueryClient) =>
+  async (data: any): Promise<number | any> => {
+    const {
+      params: { id },
+    } = data;
+    try {
+      await queryClient.ensureQueryData(linkQuery(id));
+      return id;
+    } catch (error: any) {
+      return error;
+    }
+  };
+
+export const action =
+  (queryClient: QueryClient) =>
+  async ({ request, params }: any) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    const isLinkValid = validatePlatformAndLink({
+      url: data.url,
+      platform: data.platform,
+    });
+    if (!isLinkValid) {
+      return toast.error("Please provide a valid link!");
+    }
+    try {
+      await customAxios.patch(`/links/${params.id}`, data);
+      await queryClient.invalidateQueries(["link"]);
+      toast.success("Edited successfully!");
+      return redirect("/dashboard");
+    } catch (error: any) {
+      toast.success(error?.response?.data?.msg);
+      return error;
+    }
+  };
 
 const EditLink = () => {
-  const link = useLoaderData() as ILink;
-  const specificPlatform = platforms.find((p) => p.platform === link.platform);
-  const { url } = link;
+  const id = useLoaderData() as string;
+  const { data: link } = useQuery(linkQuery(id));
+  const specificPlatform = platforms.find((p) => p.platform === link!.platform);
+  const url = link?.url;
   const [platform, setPlatform] = useState(specificPlatform);
   const [isPlatformsOpen, setIsPlatformsOpen] = useState(false);
   const [handleHiddenInput, setHandleHiddenInput] = useState(

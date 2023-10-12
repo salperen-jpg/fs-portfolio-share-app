@@ -1,19 +1,28 @@
 import styled from "styled-components";
-import { useLoaderData, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import customAxios from "../utils/customAxios";
 import { useDashboardContext } from "./DashboardSharedLayout";
 import { ILink } from "../models/LinkModel";
 import LinkComponent from "../components/Link";
 import { toast } from "react-toastify";
 import PageHero from "../components/PageHero";
-
 import { PiCloudWarningFill } from "react-icons/pi";
 import { ProfileInfo } from "../components";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 
-export const loader = async () => {
+export const linksQuery = () => {
+  return {
+    queryKey: ["links"],
+    queryFn: async (): Promise<ILink[]> => {
+      const { data } = await customAxios("/links");
+      return data.links;
+    },
+  };
+};
+
+export const loader = (queryClient: QueryClient) => async () => {
   try {
-    const { data } = await customAxios("/links");
-    return data.links;
+    return await queryClient.ensureQueryData(linksQuery());
   } catch (error: any) {
     return toast.error(error?.response?.data?.msg);
   }
@@ -21,16 +30,17 @@ export const loader = async () => {
 
 const Links = () => {
   const { user } = useDashboardContext();
-  const links = useLoaderData() as ILink[];
+  // const links = useLoaderData() as ILink[];
+  const { data: links } = useQuery(linksQuery());
 
   return (
     <Wrapper>
       <PageHero />
       <div className='outer-content'>
         <ProfileInfo user={user} />
-        {links.length > 0 ? (
+        {links!.length > 0 ? (
           <div className='links'>
-            {links.map((link: ILink) => {
+            {links!.map((link: ILink) => {
               return <LinkComponent key={link._id} {...link} />;
             })}
           </div>

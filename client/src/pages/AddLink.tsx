@@ -180,7 +180,6 @@ export const Wrapper = styled.section`
     visibility: visible;
     z-index: 99;
   }
-
   .platform-link {
     display: flex;
     align-items: center;
@@ -190,11 +189,6 @@ export const Wrapper = styled.section`
   .platform-link:hover {
     padding: 1rem 0.75rem;
     background-color: var(--grey-100);
-  }
-  input::placeholder {
-    font-size: 0.8rem;
-    padding: 0.5rem;
-    font-family: inherit;
   }
   .hidden-platform {
     display: none;

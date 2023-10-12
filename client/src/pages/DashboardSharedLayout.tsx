@@ -1,16 +1,26 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { Outlet, redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { Outlet, redirect, useNavigate } from "react-router-dom";
 import { Sidebar, MainSidebar, Navbar } from "../components";
 import { styled } from "styled-components";
 import customAxios from "../utils/customAxios";
 import { toast } from "react-toastify";
 import { getInitialDarkTheme } from "../App";
 import { IUser } from "../models/UserModels";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 
-export const loader = async () => {
+const linksQuery = () => {
+  return {
+    queryKey: ["user"],
+    queryFn: async (): Promise<IUser> => {
+      const response = await customAxios("/user/getUser");
+      return response.data.user;
+    },
+  };
+};
+
+export const loader = (queryClient: QueryClient) => async () => {
   try {
-    const response = await customAxios("/user/getUser");
-    return response.data.user;
+    return await queryClient.ensureQueryData(linksQuery());
   } catch (error) {
     toast.error("Please login");
     return redirect("/");
@@ -22,7 +32,7 @@ const initialState = {
   toggleSidebar() {},
   isDarkTheme: false,
   toggleTheme() {},
-  user: {} as IUser,
+  user: {} as IUser | undefined,
   logout() {},
 };
 
@@ -31,8 +41,8 @@ const DashboardContext = createContext(initialState);
 const DashboardSharedLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(getInitialDarkTheme());
-  const user = useLoaderData() as IUser;
   const navigation = useNavigate();
+  const { data: user } = useQuery(linksQuery());
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
