@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
 import ToggleTheme from "./ToggleTheme";
 import NavUser from "./NavUser";
 import { HiOutlineBars3CenterLeft } from "react-icons/hi2";

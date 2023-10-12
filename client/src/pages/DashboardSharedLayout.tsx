@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { Outlet, redirect, useNavigate } from "react-router-dom";
 import { Sidebar, MainSidebar, Navbar } from "../components";
-import { styled } from "styled-components";
+import styled from "styled-components";
 import customAxios from "../utils/customAxios";
 import { toast } from "react-toastify";
 import { getInitialDarkTheme } from "../App";

@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import  styled  from "styled-components";
 import NavLinks from "./NavLinks";
 import { useDashboardContext } from "../pages/DashboardSharedLayout";
 
@@ -115,7 +115,7 @@ const Wrapper = styled.div`
 `;
 export default MainSidebar;
 
-// import { styled } from "styled-components";
+// import  styled  from "styled-components";
 // import NavLinks from "./NavLinks";
 // import { useDashboardContext } from "../pages/DashboardSharedLayout";
 

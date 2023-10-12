@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
 import { useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";

@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
 import { FormRow, Logo } from "../components";
 import { Form, Link, redirect, useNavigation } from "react-router-dom";
 import customAxios from "../utils/customAxios";
