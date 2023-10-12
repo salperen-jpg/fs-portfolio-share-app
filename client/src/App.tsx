@@ -1,7 +1,7 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Landing,
   DashboardSharedLayout,
@@ -25,6 +25,15 @@ import { action as editAction } from "./pages/EditLink";
 import { action as deleteAction } from "./pages/DeleteLink";
 import { action as profileAction } from "./pages/Profile";
 import { loader as adminLoader } from "./pages/Admin";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 // dark theme function
 export const getInitialDarkTheme = () => {
@@ -64,17 +73,17 @@ function App() {
     {
       path: "dashboard",
       element: <DashboardSharedLayout />,
-      loader: dashboardLoader,
+      loader: dashboardLoader(queryClient),
       children: [
         {
           index: true,
           element: <Preview />,
-          loader: linksLoader,
+          loader: linksLoader(queryClient),
         },
         {
           path: "links",
           element: <Links />,
-          loader: linksLoader,
+          loader: linksLoader(queryClient),
         },
         {
           path: "addLink",
@@ -84,17 +93,17 @@ function App() {
         {
           path: "editLink/:id",
           element: <EditLink />,
-          action: editAction,
-          loader: editLoader,
+          action: editAction(queryClient),
+          loader: editLoader(queryClient),
         },
         {
           path: "deleteLink/:id",
-          action: deleteAction,
+          action: deleteAction(queryClient),
         },
         {
           path: "admin",
           element: <Admin />,
-          loader: adminLoader,
+          loader: adminLoader(queryClient),
         },
         {
           path: "profile",
@@ -107,8 +116,11 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
-      <ToastContainer position='top-center' />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ToastContainer position='top-center' />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }
