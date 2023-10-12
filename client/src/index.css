@@ -190,24 +190,22 @@ label {
   text-transform: capitalize;
   font-size: 0.8rem;
   letter-spacing: var(--spacing);
-  color: var(--grey-500);
+  color: var(--white);
   font-weight: 600;
 }
 input {
   border: none;
   outline: none;
   appearance: none;
-  padding: 0.75rem 0.5rem;
+  padding: 0.75rem 1rem;
   font-family: inherit;
   letter-spacing: var(--spacing);
   border-radius: var(--radius);
   font-size: 1rem;
-  /* fix it later */
   background-color: var(--white);
 }
 input::placeholder {
   font-size: 0.8rem;
-  padding: 0.5rem;
   font-family: inherit;
 }
 input[type="file"]::file-selector-button {

@@ -27,21 +27,21 @@ const Register = () => {
       <Form method='post'>
         <Logo white />
         <h5>register</h5>
-        <FormRow type='text' name='name' defaultValue='salih' />
+        <FormRow type='text' name='name' placeHolder='e.g. john' />
         <FormRow
           type='text'
           name='lastName'
-          defaultValue='alperen'
           labelText='last name'
+          placeHolder='e.g. sanders'
         />
-        <FormRow type='email' name='email' defaultValue='sal123@gmail.com' />
+        <FormRow type='email' name='email' placeHolder='john@gmail.com' />
         <FormRow
           type='text'
           name='devRole'
           labelText='Role'
-          defaultValue='Full stack developer'
+          placeHolder='e.g. full stack developer'
         />
-        <FormRow type='password' name='password' defaultValue='secret123' />
+        <FormRow type='password' name='password' />
         <button type='submit' className='btn register' disabled={isSubmitting}>
           submit
         </button>
@@ -90,25 +90,6 @@ const Wrapper = styled.main`
     flex-direction: column;
     gap: 0.6rem;
     margin-bottom: 1rem;
-  }
-  label {
-    text-transform: capitalize;
-    font-size: 0.8rem;
-    letter-spacing: var(--spacing);
-    color: var(--white);
-    font-weight: 600;
-  }
-  input {
-    border: none;
-    outline: none;
-    appearance: none;
-    padding: 0.75rem 0.5rem;
-    font-family: inherit;
-    letter-spacing: var(--spacing);
-    border-radius: var(--radius);
-  }
-  input[type="text"]::first-letter {
-    text-transform: capitalize;
   }
   p {
     margin-top: 1rem;
