@@ -12,7 +12,6 @@ const getUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  console.log(req.file);
   const objectUser = { ...req.body };
   delete objectUser.password;
 
