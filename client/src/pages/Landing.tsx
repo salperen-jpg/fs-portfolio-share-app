@@ -56,6 +56,9 @@ const Wrapper = styled.main`
     p {
       line-height: 2;
     }
+    h1 {
+      margin-bottom: 1rem;
+    }
   }
   .btn-container {
     margin-top: 1rem;
