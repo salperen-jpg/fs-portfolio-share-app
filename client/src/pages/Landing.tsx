@@ -28,7 +28,7 @@ const Landing = () => {
             </Link>
           </div>
         </div>
-        <img src={mainImg} alt='portfolio' />
+        <img src={mainImg} className='main-img' alt='portfolio' />
       </div>
     </Wrapper>
   );
@@ -77,14 +77,14 @@ const Wrapper = styled.main`
     animation: color-changer 15s linear infinite;
   }
 
-  img {
+  .main-img {
     display: none;
   }
   @media (min-width: 800px) {
     .hero {
       grid-template-columns: 1fr 1fr;
     }
-    img {
+    .main-img {
       display: block;
     }
   }
